@@ -60,8 +60,6 @@ function TodoList() {
   const userContent = useContext(UserContent)
 
   useEffect(() => {
-    console.log('load')
-    console.log(userContent)
     api
       .post('/list/get', {
         data: {
@@ -92,7 +90,6 @@ function TodoList() {
   }
 
   const updateDateValue = (date: Date | Date[]) => {
-    console.log(calenElem)
     if (!calenElem) return
     const dateString = date + ''
     const dateList = dateString.split(' ')

@@ -13,7 +13,6 @@ type UrlUserId = {
 }
 
 function TodoPage(urlData: RouteComponentProps) {
-  console.log(urlData)
   const data = urlData.match.params as UrlUserId
 
   return (

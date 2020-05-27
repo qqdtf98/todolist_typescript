@@ -22,7 +22,7 @@ export interface WorkType {
   index: number
   update:
     | React.Dispatch<React.SetStateAction<TodoData[]>>
-    | React.Dispatch<React.SetStateAction<TodoData[]>>
+    | React.Dispatch<React.SetStateAction<DoneData[]>>
   context: TodoData[] | DoneData[]
   list: TodoData | DoneData
 }

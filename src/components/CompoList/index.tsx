@@ -9,6 +9,7 @@ import {
 import { DoneData, TodoData, WorkType } from 'src/interfaces/todo-type'
 import React, { useContext, useEffect, useState } from 'react'
 
+import { CalendarProps } from 'react-calendar'
 import Scrollbars from 'react-custom-scrollbars'
 import { UserContent } from 'src/pages/TodoPage/index'
 import api from 'src/api/index'
@@ -16,7 +17,6 @@ import deleteIcon from 'src/assets/images/delete.svg'
 import plus from 'src/assets/images/plus.svg'
 
 function WorkElem(props: WorkType) {
-  console.log(props)
   const userContent = useContext(UserContent)
   // delete list elem using index
   // update new list
@@ -37,7 +37,7 @@ function WorkElem(props: WorkType) {
 
   // default: green
   // green -> yellow -> red
-  const changeImportance = (e: MouseEvent) => {
+  const changeImportance = (e: any) => {
     const newContext = [...props.context]
     const index = props.context.findIndex(
       (elem: TodoData | DoneData) => elem.id === props.index
@@ -146,7 +146,7 @@ function WorkElem(props: WorkType) {
 
   const [contents, setContents] = useState(list.contents)
 
-  const updateContentsValue = (e: InputEvent) => {
+  const updateContentsValue = (e: any) => {
     const target = e.target as HTMLInputElement
     const newContents = target.value
 
@@ -168,7 +168,7 @@ function WorkElem(props: WorkType) {
 
   const [title, setTitle] = useState(list.title)
 
-  const updateTitleValue = (e: InputEvent) => {
+  const updateTitleValue = (e: any) => {
     const target = e.target as HTMLInputElement
     const newTitle = target.value
 
@@ -188,8 +188,9 @@ function WorkElem(props: WorkType) {
       })
   }
 
-  const activateCalendar = (e: MouseEvent) => {
+  const activateCalendar = (e: any) => {
     const target = e.target as HTMLElement
+    if (!calenElem) return
     if (getComputedStyle(calenElem).display === 'block') {
       calenElem.style.display = 'none'
     } else if (getComputedStyle(calenElem).display === 'none') {
@@ -197,7 +198,7 @@ function WorkElem(props: WorkType) {
       calenElem.style.left = targetStyle.left - targetStyle.width + 'px'
       calenElem.style.top = targetStyle.top + targetStyle.height + 'px'
       calenElem.style.display = 'block'
-      calenElem.value = props.data
+      // calenElem.value = props.data
       calenElem.setAttribute('index', props.index.toString())
     }
   }
@@ -296,8 +297,9 @@ export function Todo() {
     textInput?.focus()
   }, [textInput])
 
-  const addElem = (e) => {
+  const addElem = (e: any) => {
     if (e.key === 'Enter') {
+      const target = e.target as HTMLInputElement
       const today = new Date()
       const date =
         today.getFullYear() +
@@ -307,7 +309,7 @@ export function Todo() {
         today.getDate()
       const newContext = {
         title: 'title',
-        contents: e.target.value,
+        contents: target.value,
         date,
         state: 0,
         importance: 'green',
@@ -320,11 +322,10 @@ export function Todo() {
           },
         })
         .then((res) => {
-          console.log(res.data)
           const newTodo = res.data
           update(newTodo)
         })
-      e.target.value = ''
+      target.value = ''
     }
   }
 
